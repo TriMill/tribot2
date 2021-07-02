@@ -78,7 +78,7 @@ names = {
 
     "random": rand,
     "sqrt": math.sqrt,
-    "gcd": math.gcd, "lcm": math.lcm,
+    "gcd": math.gcd, 
     "floor": math.floor, "ceil": math.ceil, "round": round,
     "exp": math.exp, "log": math.log, 
     "sin": math.sin, "cos": math.cos, "tan": math.tan,
