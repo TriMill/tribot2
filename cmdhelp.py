@@ -21,7 +21,7 @@ vote = Help(name="vote", short="Allow people to vote with reactions", aliases=[]
 
 poll = Help(name="poll", short="Allow people to choose an option with reactions", aliases=[], usage=["poll <question>; <options...>"], desc="Allow members to choose their favorite option in a poll. Members can use the number reactions (:one:, :two:, :three:, etc.) to select their option. Options must be separated by semicolons.", examples=["poll Who should I get in the divorce?; Randolph; Kaiylaeigh; The dog"])
 
-evalexpr = Help(name="eval", short="Evaluate a math expression", aliases=["math", "="], usage=["eval <expr>"], desc="Evaluate a math expression.", examples=["help poll", "help flip", "help", "help help"])
+evalexpr = Help(name="eval", short="Evaluate a math expression", aliases=["math", "="], usage=["eval <expr>"], desc="Evaluate simple math expressions with syntax based on Python. See the GitHub page for a full list of operations and functions available.", examples=["eval 1 + 2", "eval (1 + sqrt(5))/2", "eval sin(pi/4) * cos(pi/3)"])
 
 wikipedia = Help(name="wikipedia", short="Search Wikipedia", aliases=["wiki", "w"], usage=["wikipedia <query>"], desc="Search Wikipedia for the specified query. Responds with a Wikipedia search link with the `go` flag set, taking you directly to the first search result.", examples=["wikipedia Peter Kropotkin"])
 
