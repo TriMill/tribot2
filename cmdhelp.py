@@ -11,15 +11,17 @@ say = Help(name="say", short="Make the bot say something", aliases=[], usage=["s
 
 coinflip = Help(name="coinflip", short="Flip one or more coins", aliases=["coin", "flip"], usage=["coinflip", "coinflip <n>"], desc="Flip one or more coins. `coinflip` without a parameter will flip a single coin, `coinflip <n>` will flip `n` coins and report how many landed heads and how many tails.", examples=["coinflip 30"])
 
-stop = Help(name="stop", short="", aliases=[], usage=[""], desc="yeah no", examples=[""])
+stop = Help(name="stop", short="", aliases=[], usage=[], desc="yeah no", examples=[""])
 
 roll = Help(name="roll", short="Roll dice", aliases=["dice"], usage=["roll <dice>"], desc="Roll dice specified using dice notation.", examples=["roll 1d20+3d4", "roll 2d12-1d6", "roll 5d7-12", "roll d6+d4"])
 
 eightball = Help(name="8ball", short="Fortune telling", aliases=["eightball"], usage=["8ball <question>"], desc="Ask the Magic Eight-Ball any question. Answers are guarenteed to be 100% accurate.", examples=["8ball Will I get to keep the kids in the divorce?"])
 
-vote = Help(name="vote", short="Allow people to vote with reactions", aliases=[""], usage=["vote <question>"], desc="Allow everyone to vote on a question. Members can use the :arrow_up: and :arrow_down: reactions to vote on the question. Only one option can be chosen.", examples=["vote Should I get the kids in the divorce?"])
+vote = Help(name="vote", short="Allow people to vote with reactions", aliases=[], usage=["vote <question>"], desc="Allow everyone to vote on a question. Members can use the :arrow_up: and :arrow_down: reactions to vote on the question. Only one option can be chosen.", examples=["vote Should I get the kids in the divorce?"])
 
-poll = Help(name="poll", short="Allow people to choose an option with reactions", aliases=[""], usage=["poll <question>; <options...>"], desc="Allow members to choose their favorite option in a poll. Members can use the number reactions (:one:, :two:, :three:, etc.) to select their option. Options must be separated by semicolons.", examples=["poll Who should I get in the divorce?; Randolph; Kaiylaeigh; The dog"])
+poll = Help(name="poll", short="Allow people to choose an option with reactions", aliases=[], usage=["poll <question>; <options...>"], desc="Allow members to choose their favorite option in a poll. Members can use the number reactions (:one:, :two:, :three:, etc.) to select their option. Options must be separated by semicolons.", examples=["poll Who should I get in the divorce?; Randolph; Kaiylaeigh; The dog"])
+
+evalexpr = Help(name="eval", short="Evaluate a math expression", aliases=["math", "="], usage=["eval <expr>"], desc="Evaluate a math expression.", examples=["help poll", "help flip", "help", "help help"])
 
 wikipedia = Help(name="wikipedia", short="Search Wikipedia", aliases=["wiki", "w"], usage=["wikipedia <query>"], desc="Search Wikipedia for the specified query. Responds with a Wikipedia search link with the `go` flag set, taking you directly to the first search result.", examples=["wikipedia Peter Kropotkin"])
 
@@ -36,7 +38,7 @@ for x in [xkcd, wikipedia, imgflip]:
     categories["Web"].append("`{}`: {}".format(x.name, x.short))
 for x in [vote, poll]:
     categories["Polls"].append("`{}`: {}".format(x.name, x.short))
-for x in [say, ping]:
+for x in [say, ping, evalexpr]:
     categories["Misc"].append("`{}`: {}".format(x.name, x.short))
 
 async def help_general(client, message):

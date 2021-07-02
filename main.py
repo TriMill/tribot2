@@ -28,6 +28,9 @@ CMDS = {
     "xkcd": (commands.xkcd, cmdhelp.xkcd),
     "imgflip": (commands.imgflip, cmdhelp.imgflip),
     "meme": (commands.imgflip, cmdhelp.imgflip),
+    "eval": (commands.evalexpr, cmdhelp.evalexpr),
+    "math": (commands.evalexpr, cmdhelp.evalexpr),
+    "=": (commands.evalexpr, cmdhelp.evalexpr),
 }
 
 class MyClient(discord.Client):

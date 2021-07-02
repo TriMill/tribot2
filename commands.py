@@ -4,6 +4,7 @@ import sys
 import random
 
 import botutils
+import matheval
 
 # * say
 # * ping
@@ -11,12 +12,12 @@ import botutils
 #   counttop
 # * roll
 # * flip
-#   eval
+# * eval
 # * help
 # * 8ball
 # * wikipedia
 # * xkcd
-#   meme
+# * meme
 # * vote
 # * poll
 
@@ -81,6 +82,20 @@ async def eightball(client, message, argstr):
         response = random.choice(botutils.EIGHTBALL_ANSWERS)
         await message.channel.send(":8ball: " + response)
 
+async def evalexpr(client, message, argstr):
+    expr = "".join(argstr)
+    if len(expr) > 2 and expr[0] == "`" and expr[-1] == "`":
+        expr = expr[1:-1]
+    try:
+        res = str(matheval.eval_expr(expr))
+        if len(res) > 2000:
+            raise Exception("result is longer than 2000 characters")
+        m = f":1234: {res}"
+        if len(m) > 2000:
+            m = res
+        await message.channel.send(m)
+    except Exception as e:
+        await message.channel.send(f":x: Error: {str(e)}")
 
 async def vote(client, message, argstr):
     if len(argstr) == 0:

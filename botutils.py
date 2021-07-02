@@ -53,6 +53,8 @@ def roll_dice(dicestr):
             for _ in range(count):
                 rolls.append(sign*random.randrange(1, sides+1))
         else: raise UserException("Invalid dice notation")
+    if len(rolls) == 0:
+        raise UserException("No dice specified")
     return rolls
 
 
