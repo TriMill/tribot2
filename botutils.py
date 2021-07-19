@@ -14,14 +14,14 @@ COLOR_WEB = discord.Colour.blue()
 NUM_EMOJIS = [str(x) + "\uFE0F\u20E3" for x in range(10)]
 
 EIGHTBALL_ANSWERS = [
-    "It is certain.", "It is decidedly so.", "Without a doubt.", 
-    "Yes - definitely.", "You may rely on it.", "As I see it, yes.", 
+    "It is certain.", "It is decidedly so.", "Without a doubt.",
+    "Yes - definitely.", "You may rely on it.", "As I see it, yes.",
     "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.",
 
-    "Reply hazy, try again.", "Ask again later.", "Better not tell you know.", 
+    "Reply hazy, try again.", "Ask again later.", "Better not tell you know.",
     "Cannot predict now.", "Concentrate and ask again.",
 
-    "Don't count on it.", "My reply is no.", "My sources say no.", 
+    "Don't count on it.", "My reply is no.", "My sources say no.",
     "Outlook not so good.", "Very doubtful."
 ]
 
@@ -48,7 +48,7 @@ def roll_dice(dicestr):
 
             try: sides = int(parts[1])
             except: raise UserException("Number of sides must be an integer")
-            
+
             if sides <= 0: raise UserException("Number of sides must be positive")
             for _ in range(count):
                 rolls.append(sign*random.randrange(1, sides+1))
@@ -92,8 +92,9 @@ imgflip_templates = {
     "samepicture": 180190441,
     "thisisfine": 55311130,
     "truthscroll": 123999232,
+    "fanvsenjoyer": 280253821,
 }
-    
+
 def imgflip(query, login):
     parts = query.split(";")
     if len(parts) == 0:
@@ -116,4 +117,3 @@ def imgflip(query, login):
     if "success" not in response or response["success"] != True:
         raise UserException("Error generating meme.")
     return response["data"]
-    
