@@ -2,10 +2,35 @@
 # https://discord.com/oauth2/authorize?client_id=??????&scope=bot&permissions=8192
 import discord
 import asyncio
+import logging
+import datetime
+import sys
+import os
 
 import commands
 import botutils
 import cmdhelp
+
+if not os.path.exists("logs"):
+    os.mkdir("logs")
+
+timestamp = datetime.datetime.utcnow().replace(microsecond=0).isoformat().replace(":", "_")
+fstr = "%(asctime)s - %(module)s [%(levelname)s] %(message)s"
+fmt = logging.Formatter(fmt=fstr)
+logging.basicConfig(
+        encoding='utf-8',
+        level=logging.INFO,
+        format=fstr
+)
+#logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+dated_log = logging.FileHandler("logs/{}.log".format(timestamp), mode="a")
+dated_log.setFormatter(fmt)
+logging.getLogger().addHandler(dated_log)
+latest_log = logging.FileHandler("logs/latest.log", mode="w")
+latest_log.setFormatter(fmt)
+logging.getLogger().addHandler(latest_log)
+
+logger = logging.getLogger(__name__)
 
 CMD_FORBID = ("(", ")", "[", "]", "{", "}", ";", ".", ",", ":")
 
@@ -40,8 +65,8 @@ class MyClient(discord.Client):
 
     async def on_ready(self):
         await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=";help"))
-        print("Ready")
-        
+        logger.info("Ready")
+
     async def on_message(self, message):
         # don"t reply to bots
         if message.author.bot:
@@ -54,23 +79,27 @@ class MyClient(discord.Client):
             rest = message.content[idx:].strip()
             if any(a in cmd for a in CMD_FORBID):
                 return
-            if cmd in CMDS:
-                try:
+            try:
+                if cmd in CMDS:
+                    logger.info("running command: {}".format(message.content))
                     await CMDS[cmd][0](self, message, rest)
-                except Exception as e:
+                elif cmd == "help" or cmd == "?":
+                    logger.info("running help command: {}".format(message.content))
+                    if len(rest) == 0:
+                        await cmdhelp.help_general(self, message)
+                    elif rest == "help" or rest == "?":
+                        await cmdhelp.help_cmd(self, message, cmdhelp.help)
+                    elif rest in CMDS:
+                        await cmdhelp.help_cmd(self, message, CMDS[rest][1])
+                    else:
+                        await cmdhelp.unknown(self, message)
+            except Exception as e:
+                try:
                     await message.channel.send(":x: An unexpected error occured while performing this command.")
-                    raise e
-            elif cmd == "help" or cmd == "?":
-                if len(rest) == 0:
-                    await cmdhelp.help_general(self, message)
-                elif rest == "help" or rest == "?":
-                    await cmdhelp.help_cmd(self, message, cmdhelp.help)
-                elif rest in CMDS:
-                    await cmdhelp.help_cmd(self, message, CMDS[rest][1])
-                else:
-                    await cmdhelp.unknown(self, message)
-
-                    
+                except Exception as e2:
+                    logger.warning("Could not reply with error message")
+                logger.error("Unexpected error in command: {}".format(message.content))
+                logger.exception(e)
 
     # Ensure polls and votes only have one response per person
     async def on_reaction_add(self, reaction, user):
@@ -90,14 +119,14 @@ class MyClient(discord.Client):
 
 with open("token") as tokenfile:
     token = tokenfile.read()
-    print("Read token")
+    logger.info("Read token")
 
 try:
     with open("imgflip") as imgflipfile:
         imgflip = imgflipfile.read().split("\n")
-        print("Read ImgFlip login")
+        logger.info("Read ImgFlip login")
 except:
-    print("Failed to read ImgFlip login")
+    logger.warning("Failed to read ImgFlip login")
     imgflip = None
 
 client = MyClient(imgflip)

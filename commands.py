@@ -2,9 +2,12 @@ import discord
 import datetime
 import sys
 import random
+import logging
 
 import botutils
 import matheval
+
+logger = logging.getLogger(__name__)
 
 # * say
 # * ping
@@ -34,8 +37,8 @@ async def say(client, message, argstr):
 
 async def stop(client, message, argstr):
     if message.author.id == 297903701916385290:
+        logger.info(";stop issued, shutting down")
         await client.close()
-
 
 async def roll(client, message, argstr):
     dicestr = argstr.replace(" ","")
