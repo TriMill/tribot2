@@ -18,7 +18,6 @@ timestamp = datetime.datetime.utcnow().replace(microsecond=0).isoformat().replac
 fstr = "%(asctime)s - %(module)s [%(levelname)s] %(message)s"
 fmt = logging.Formatter(fmt=fstr)
 logging.basicConfig(
-        encoding='utf-8',
         level=logging.INFO,
         format=fstr
 )
